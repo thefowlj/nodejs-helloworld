@@ -33,9 +33,17 @@ server.get("/hello-world/msg", (req,res) => {
 
 //post function to add message to db
 server.post("/hello-world/msg", (req,res) => {
-  var msg = { message: req.body }
+  var msg = { message: req.body };
   console.log('Adding message:', msg);
   db.msg.save(msg);
+  res.json(db.msg.find());
+});
+
+//post function to update default message
+server.post("/hello-world/", (req,res) => {
+  var msg = { message: req.body };
+  consle.log("Updating default message:", msg);
+  db.msg.update({ _id: defaultId }, msg);
   res.json(db.msg.find());
 });
 

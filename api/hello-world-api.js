@@ -1,12 +1,16 @@
 //hello-world-api.js
 //basic hello world api server
 //
-//requires: express, diskdb
+//requires: express, diskdb, body-parser
 const express = require('express');
 const db = require('diskdb');
-const server = express();
+const bodyParser = require('body-parser');
 
+const server = express();
 const defaultMsg = { message: "Hello world" };
+
+//allows the request body to be prased
+server.use(bodyParser.text({type: "*/*"}));
 
 db.connect('./data', ['msg']);
 
@@ -23,6 +27,14 @@ server.get("/hello-world/", (req,res) => {
 
 //get message(s) from db
 server.get("/hello-world/msg", (req,res) => {
+  res.json(db.msg.find());
+});
+
+//post function to add message to db
+server.post("/hello-world/msg", (req,res) => {
+  var msg = { message: req.body }
+  console.log('Adding message:', msg);
+  db.msg.save(msg);
   res.json(db.msg.find());
 });
 

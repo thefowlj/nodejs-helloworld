@@ -38,6 +38,14 @@ server.post("/hello-world/msg", (req,res) => {
   res.json(db.msg.find());
 });
 
+//delete function to remove message from db
+server.delete("/hello-world/msg/:id", (req,res) => {
+  var msgId = req.params.id;
+  console.log("Deleting message with id:", msgId);
+  db.msg.remove({ _id: msgId});
+  res.json(db.msg.find());
+});
+
 const port = 80;
 server.listen(port, () => {
 	console.log(`Server listening at ${port}`);

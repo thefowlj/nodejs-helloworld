@@ -14,16 +14,16 @@ server.use(bodyParser.text({type: "*/*"}));
 
 db.connect('./data', ['msg']);
 
-if(!db.msg.find().length) {
+if(db.msg.find().length < 1) {
   db.msg.save(defaultMsg);
 }
 const defaultId = db.msg.find()[0]._id;
-console.log(db.msg.find()[0]);
-console.log(db.msg.find()[0]._id);
+console.log(db.msg.find());
+console.log("defaultId: ", db.msg.find()[0]._id);
 
 // /hello-world/ always returns default message
 server.get("/hello-world/", (req,res) => {
-	res.json(defaultMsg);
+	res.json(db.msg.find({ _id: defaultId}));
 });
 
 //get message(s) from db
@@ -42,7 +42,7 @@ server.post("/hello-world/msg", (req,res) => {
 //post function to update default message
 server.post("/hello-world/", (req,res) => {
   var msg = { message: req.body };
-  consle.log("Updating default message:", msg);
+  console.log("Updating default message:", msg);
   db.msg.update({ _id: defaultId }, msg);
   res.json(db.msg.find());
 });

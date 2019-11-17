@@ -17,6 +17,7 @@ db.connect('./data', ['msg']);
 if(!db.msg.find().length) {
   db.msg.save(defaultMsg);
 }
+const defaultId = db.msg.find()[0]._id;
 console.log(db.msg.find()[0]);
 console.log(db.msg.find()[0]._id);
 
@@ -41,8 +42,12 @@ server.post("/hello-world/msg", (req,res) => {
 //delete function to remove message from db
 server.delete("/hello-world/msg/:id", (req,res) => {
   var msgId = req.params.id;
-  console.log("Deleting message with id:", msgId);
-  db.msg.remove({ _id: msgId});
+  if(msgId !== defaultId) {
+    console.log("Deleting message with id:", msgId);
+    db.msg.remove({ _id: msgId});
+  } else {
+    console.log("Deletion failed: id equals default message id");
+  }
   res.json(db.msg.find());
 });
 

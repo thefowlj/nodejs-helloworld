@@ -59,7 +59,7 @@ server.delete("/hello-world/msg/:id", (req,res) => {
   res.json(db.msg.find());
 });
 
-const port = 80;
+const port = 4001;
 server.listen(port, () => {
 	console.log(`Server listening at ${port}`);
 });

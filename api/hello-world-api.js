@@ -33,7 +33,7 @@ server.get("/hello-world/msg", (req,res) => {
 
 //post function to add message to db
 server.post("/hello-world/msg", (req,res) => {
-  var msg = { message: req.body };
+  let msg = { message: req.body };
   console.log('Adding message:', msg);
   db.msg.save(msg);
   res.json(db.msg.find());
@@ -41,7 +41,7 @@ server.post("/hello-world/msg", (req,res) => {
 
 //post function to update default message
 server.post("/hello-world/", (req,res) => {
-  var msg = { message: req.body };
+  let msg = { message: req.body };
   console.log("Updating default message:", msg);
   db.msg.update({ _id: defaultId }, msg);
   res.json(db.msg.find());
@@ -49,7 +49,7 @@ server.post("/hello-world/", (req,res) => {
 
 //delete function to remove message from db
 server.delete("/hello-world/msg/:id", (req,res) => {
-  var msgId = req.params.id;
+  let msgId = req.params.id;
   if(msgId !== defaultId) {
     console.log("Deleting message with id:", msgId);
     db.msg.remove({ _id: msgId});
@@ -59,7 +59,7 @@ server.delete("/hello-world/msg/:id", (req,res) => {
   res.json(db.msg.find());
 });
 
-const port = 80;
+const port = 4001;
 server.listen(port, () => {
 	console.log(`Server listening at ${port}`);
 });
